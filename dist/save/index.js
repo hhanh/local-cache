@@ -53485,7 +53485,7 @@ function restoreCache(paths, primaryKey, restoreKeys) {
         // Restore files from archive
         const cachePath = (0, path_1.join)(cacheDir, cacheFile.path);
         const baseDir = (0, path_1.dirname)(path);
-        const cmd = `tar -I pigz -xf ${cachePath} -C ${baseDir}`;
+        const cmd = `tar -xf ${cachePath} -C ${baseDir}`;
         core.info([
             `Restoring cache: ${cacheFile.name}`,
             `Created: ${(_a = cacheFile.stats) === null || _a === void 0 ? void 0 : _a.mtime}`,
@@ -53528,7 +53528,7 @@ function saveCache(paths, key) {
         const folderName = (0, path_1.basename)(path);
         // Ensure cache dir exists
         yield fs_1.default.promises.mkdir(cacheDir, { recursive: true });
-        const cmd = `tar -I pigz -cf ${cachePath} -C ${baseDir} ${folderName}`;
+        const cmd = `tar -cf ${cachePath} -C ${baseDir} ${folderName}`;
         core.info(`Save cache: ${cacheName}`);
         const createCacheDirPromise = execAsync(cmd);
         try {
@@ -53537,7 +53537,7 @@ function saveCache(paths, key) {
         catch (err) {
             core.warning(`Error running tar: ${err}`);
             const skipFailure = core.getInput("skip-failure") || false;
-            const cleanBadFile = execAsync(`rm -rf ${cachePath}`);
+            const cleanBadFile = execAsync(`rmdir -Path "${cachePath}" -Recurse -Force`);
             yield streamOutputUntilResolved(cleanBadFile);
             if (!skipFailure) {
                 throw err;
