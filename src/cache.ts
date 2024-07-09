@@ -121,10 +121,7 @@ function locateCacheFile(
 }
 
 function getCacheDirPath(): string {
-    return join(
-        process.env.CACHE_DIR || `/media/cache/`,
-        process.env.GITHUB_REPOSITORY || ""
-    );
+    return process.env.CACHE_DIR || `/media/cache/`;
 }
 
 /**
@@ -161,7 +158,6 @@ export async function restoreCache(
         unique: true
     });
 
-
     const result = locateCacheFile(filenameMatchers, cacheFiles);
 
     if (!result) {
@@ -193,7 +189,9 @@ export async function restoreCache(
         if (!skipFailure) {
             throw err;
         }
-        const cleanBadFile = execAsync(`rmdir -Path "${cachePath}" -Recurse -Force`);
+        const cleanBadFile = execAsync(
+            `rmdir -Path "${cachePath}" -Recurse -Force`
+        );
         await streamOutputUntilResolved(cleanBadFile);
     }
 
