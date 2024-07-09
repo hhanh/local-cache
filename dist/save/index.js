@@ -53447,7 +53447,7 @@ function locateCacheFile(filenameMatchers, cacheFiles) {
     return { key, cacheFile: latestCacheFile };
 }
 function getCacheDirPath() {
-    return (0, path_1.join)(process.env.CACHE_DIR || `/media/cache/`, process.env.GITHUB_REPOSITORY || "");
+    return process.env.CACHE_DIR || `/media/cache/`;
 }
 /**
  * Restores cache from keys
