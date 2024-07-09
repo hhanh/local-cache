@@ -47,7 +47,7 @@ async function run(): Promise<void> {
                     ...restoreKeys
                 ].join(", ")}`
             );
-
+            utils.setCacheHitOutput(false);
             return;
         }
 
