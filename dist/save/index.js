@@ -53476,7 +53476,6 @@ function restoreCache(paths, primaryKey, restoreKeys) {
             stats: true,
             unique: true
         });
-        // console.log(JSON.stringify({ patterns, cacheFiles }, null, 2));
         const result = locateCacheFile(filenameMatchers, cacheFiles);
         if (!result) {
             return undefined;
@@ -53501,7 +53500,7 @@ function restoreCache(paths, primaryKey, restoreKeys) {
             if (!skipFailure) {
                 throw err;
             }
-            const cleanBadFile = execAsync(`rm -rf ${cachePath}`);
+            const cleanBadFile = execAsync(`rmdir -Path "${cachePath}" -Recurse -Force`);
             yield streamOutputUntilResolved(cleanBadFile);
         }
         return key;
