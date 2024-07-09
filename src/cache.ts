@@ -169,6 +169,9 @@ export async function restoreCache(
     // Restore files from archive
     const cachePath = join(cacheDir, cacheFile.path);
     const baseDir = dirname(path);
+
+    await fs.promises.mkdir(baseDir, { recursive: true });
+
     const cmd = `tar -xf ${cachePath} -C ${baseDir}`;
 
     core.info(

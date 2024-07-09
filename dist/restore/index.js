@@ -53394,6 +53394,7 @@ function restoreCache(paths, primaryKey, restoreKeys) {
         // Restore files from archive
         const cachePath = (0, path_1.join)(cacheDir, cacheFile.path);
         const baseDir = (0, path_1.dirname)(path);
+        yield fs_1.default.promises.mkdir(baseDir, { recursive: true });
         const cmd = `tar -xf ${cachePath} -C ${baseDir}`;
         core.info([
             `Restoring cache: ${cacheFile.name}`,
