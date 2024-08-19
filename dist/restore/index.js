@@ -53379,6 +53379,7 @@ function restoreCache(paths, primaryKey, restoreKeys) {
             ? [primaryKey, ...restoreKeys]
             : [primaryKey]).map(key => (0, filenamify_1.default)(key));
         const patterns = filenameMatchers.map(matcher => `${matcher}*`);
+        core.info(`+ file patterns: ${patterns.join(" | ")}`);
         const cacheFiles = yield (0, fast_glob_1.default)(patterns, {
             cwd: cacheDir,
             objectMode: true,
@@ -53386,8 +53387,13 @@ function restoreCache(paths, primaryKey, restoreKeys) {
             stats: true,
             unique: true
         });
+        cacheFiles.forEach(cf => {
+            core.info(`- cache file: ${cf.name} at path ${cf.path}`);
+        });
         const result = locateCacheFile(filenameMatchers, cacheFiles);
+        core.info(`- found cache: ${JSON.stringify(result)}`);
         if (!result) {
+            core.info(`- cache not found!!!`);
             return undefined;
         }
         const { key, cacheFile } = result;
