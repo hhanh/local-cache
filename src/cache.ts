@@ -149,7 +149,11 @@ export async function restoreCache(
             ? [primaryKey, ...restoreKeys]
             : [primaryKey]
     ).map(key => filenamify(key));
+    
     const patterns = filenameMatchers.map(matcher => `${matcher}*`);
+
+    console.log(`File Pattern = ${patterns.join(" | ")}`)
+
     const cacheFiles: fg.Entry[] = await fg(patterns, {
         cwd: cacheDir,
         objectMode: true,
@@ -158,7 +162,16 @@ export async function restoreCache(
         unique: true
     });
 
+    console.log("Cache files ---")
+    cacheFiles.forEach((cf) => {    
+        console.log(cf.name + " - " + cf.path)
+    })
+
+
+
     const result = locateCacheFile(filenameMatchers, cacheFiles);
+
+    console.log(JSON.stringify(result));
 
     if (!result) {
         return undefined;
